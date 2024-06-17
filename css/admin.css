@@ -1,0 +1,157 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'YeongdeokSea';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/YeongdeokSea.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 전역 스타일 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'YeongdeokSea';
+    background-color: #f8f1e5; /* 부드러운 베이지톤 배경색 */
+    color: #555; /* 텍스트 색상 */
+    margin: 0;
+    padding: 0;
+      text-align: center;
+}
+
+#nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(233, 209, 171); /* 네비게이션 바 배경색 */
+  padding: 10px 20px; /* 네비게이션 바 내부 여백 */
+}
+#serchArea{
+  flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
+}
+
+#categoryBar {
+  display: flex;
+  align-items: center;
+}
+
+.categoryMenu {
+  margin-right: 20px;
+  color: #333;
+  text-decoration: none;
+  font-size: 16px; /* 링크 글자 크기 */
+}
+
+.categoryMenu:hover {
+  color: #555;
+}
+
+.addG {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* 요소들을 오른쪽으로 정렬 */
+  color: #333;
+  text-decoration: none;
+  font-size: 16px; /* 링크 글자 크기 */
+}
+
+.addG:hover {
+  color: #555;
+}
+
+.addG a,
+.addG button {
+  margin-left: 20px; /* 각 링크와 버튼 사이의 간격 조정 */
+}
+
+#nav1 {
+  background-color: rgb(233, 209, 171); /* 네비게이션 바 배경색 */
+  padding: 10px 20px; /* 네비게이션 바 내부 여백 */
+}
+
+#doSerch {
+  padding: 10px 20px;
+  background-color: rgb(180, 110, 25);/* 버튼 배경색 */
+  color: white; /* 버튼 글자색 */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px; /* 버튼 글자 크기 */
+  font-weight: bold; /* 버튼 글자 굵기 */
+}
+
+#doSerch:hover {
+  background-color:  peru; /* 마우스 호버 시 배경색 */
+}
+
+
+button {
+    padding: 13px 30px;
+    background-color: rgb(180, 110, 25);
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'YeongdeokSea';
+}
+
+button:hover {
+    background-color: peru;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px; /* 글자 크기 */
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.goodsL td:first-child, 
+.goodsL td:last-child {
+  width: 15%;
+}
+
+.goodsL img {
+  width: 120px;
+}
+.goodsL td:first-child {
+  width: 5%; /* 예시로 너비를 10%로 지정합니다. */
+}
+
+.goodslist {
+  width: 70%;
+  border-collapse: collapse;
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+.goodslist td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.goodslist select,
+.goodslist input[type="text"],
+.goodslist input[type="number"],
+.goodslist textarea,
+.goodslist input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.goodslist input[type="radio"] {
+  margin-right: 5px;
+}
+

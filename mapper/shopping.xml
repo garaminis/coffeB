@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.shopping.ShopDAO">
+<!-- <insert id="add">
+	INSERT into member0 set user_id=#{param1} ,password=#{param2}, name=#{param3}, mobile=#{param4} ,mail=#{param5},
+				birth=#{param6}, adress=#{param7}, zipcode=#{param8}, gender=#{param9} ,adress2=#{param10}, nickname=#{param11},salt=#{param12},join_day=sysdate() 
+</insert > -->
+<select id="category" resultType="com.study.shopping.BoardCategoryDTO">
+	SELECT id,name from boardcategory
+</select>
+<!-- <select id="answerstate" resultType="com.study.shopping.answerstateDTO">
+	SELECT id,name from answerstate
+</select> -->
+ <select id="boardList" resultType="com.study.shopping.BoardDTO">
+	SELECT id, title, content, writer,created,category,nickname from board0  where category=#{param1} order by created DESC 
+	
+</select>
+ <select id="directQnAList" resultType="com.study.shopping.directQnADTO">
+	SELECT id,member_id, title, content, writer,created,category,nickname from directQnA where category=#{param1} order by created DESC
+</select>
+
+<!-- <select id="dologin" resultType="_int">
+	SELECT count(*) cnt from member0 where user_id=#{param1} and password=#{param2}
+</select>
+<select id="adlogin" resultType="_int">
+	SELECT count(*) cnt from member0 where user_id=#{param1} and password=#{param2} and member_rank="1"
+</select>-->
+
+<select id="myLoad" resultType="com.study.shopping.MemberDTO">
+	SELECT id, name, birth, zipcode, adress, adress2, mobile, mail from member0 where user_id=#{param1}
+</select> 
+<update id="modify">
+	UPDATE member0 set name=#{param2}, birth=#{param3}, zipcode=#{param4}, adress=#{param5}, mobile=#{param6}, mail=#{param7}
+	where user_id=#{param1}
+</update>
+<insert id="myWrite"> <!-- 관리자 글 작성 -->
+	INSERT into board0 set title=#{param1} ,writer=#{param2}, content=#{param3}, category=#{param4} , nickname=#{param5}, created=sysdate() 
+</insert>
+<insert id="customerWrite"> <!-- 회원 글 작성 -->
+	INSERT into directQnA set member_id=#{param1} ,category=#{param2}, title=#{param3} ,writer=#{param4},content=#{param5},answer=#{param6}, nickname=#{param7},created=sysdate() 
+</insert>
+<update id="modifyBoard"> <!-- 관리자 글 수정 -->
+	UPDATE board0 set title=#{param1}, content=#{param2} where id=#{param3}
+</update>
+<update id="modifyDirectQnA"> <!-- 회원 글 수정 -->
+	UPDATE directQnA set title=#{param1}, content=#{param2} where id=#{param3}
+</update>
+<delete id="delete">
+	delete from board0 where id=#{param1}
+</delete>
+<select id="boardData" resultType="com.study.shopping.BoardDTO">
+	SELECT id, category, title, content from board0 where id=#{param1}
+</select>
+<delete id="deleteDirectQnA">
+	delete from directQnA where id=#{param1}
+</delete>
+<insert id="comment">
+	INSERT into directQnAanswer set directid=#{param1} ,writer=#{param2}, category=#{param3}, Qwriter=#{param4},content=#{param5},created=sysdate() 
+</insert>
+<insert id="commentAnswer">
+	UPDATE directQnA set answer=#{param1} where id=#{param2}
+</insert>
+<select id="directQnAanswer" resultType="com.study.shopping.directQnAanswerDTO">
+    SELECT a.id, b.id AS CommentID, b.content, b.Qwriter
+    FROM directQnA a, directQnAanswer b
+    WHERE a.id = b.directID 
+</select>  
+
+<delete id="QnAdelete">
+	delete from directQnAanswer where id=#{param1}
+</delete>
+<update id="commentModify">
+	UPDATE directQnAanswer set content=#{param2} where id=#{param1} 
+</update>
+<select id="orderData" resultType="com.study.shopping.MemberDTO">
+	SELECT name, mail, mobile, adress from member0 where user_id=#{param1}
+</select>
+<insert id="saveOrder">
+	INSERT into ordergroup set delname=#{param1}, delzipcode=#{param2}, deladress=#{param3}, deladress2=#{param4} ,delmobile=#{param5},
+				delreq=#{param6}, delpay=#{param7}, payment=#{param8}
+</insert>
+<insert id="addOrder">
+	INSERT into order0 set member_id=#{param1}, goods_id=#{param2}, cnt=#{param3}, sales=#{param4}, group_id=#{param5}
+</insert>
+<select id="getOrderId" resultType="_int">
+	SELECT id from ordergroup where delname=#{param1} and delzipcode=#{param2} and deladress=#{param3} and deladress2=#{param4} and delmobile=#{param5} and delreq=#{param6} and delpay=#{param7} and payment=#{param8}
+</select>
+
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.study.shopping.GoodsDAO">
+<insert id="goodsAdd">
+   INSERT INTO goods0 SET category = #{param1}, title = #{param2}, price = #{param3}, discnt=#{param4}, stock = #{param5},  delpay = #{param6}, content = #{param7},
+    <foreach collection="param8" item="img" index="idx" separator=",">
+        img${idx + 1} = #{img}
+    </foreach>
+</insert>
+<select id="itemList" resultType="com.study.shopping.GoodsDTO">
+    SELECT b.name name, a.id id, img1, title, price
+    FROM goods0 a, goodscategory b
+    <where>
+        <if test="param1 > 0">
+            and a.category = #{param1}
+            and b.id = #{param1}
+        </if>
+    </where>
+    ORDER BY a.id DESC;
+</select>
+<select id="search" resultType="com.study.shopping.GoodsDTO">
+	SELECT DISTINCT CONCAT(#{param1}) name, a.id id, img1, title, price FROM goods0 a, goodscategory b WHERE title LIKE CONCAT('%', #{param1}, '%');
+</select>
+<select id="itemInfo" resultType="com.study.shopping.GoodsDTO">
+	SELECT a.*, b.pay pay FROM goods0 a, delivery b WHERE a.id = #{param1} and a.delpay = b.id
+</select>
+<select id="list"  resultType="com.study.shopping.GoodsDTO">
+SELECT a.title,a.price,c.name AS delpay, a.img1 img1, a.discnt,a.stock,a.img1,a.content,a.id,b.name AS name from goods0 a join goodscategory b on a.category = b.id join delivery c on a.delpay = c.id;
+</select>
+<update id="upd">
+	UPDATE goods0 set category=#{param2}, title=#{param3},price=#{param4},stock=#{param5},delpay=#{param6},discnt=#{param7} where id=#{param1}
+</update>
+<select id="view" resultType="com.study.shopping.GoodsDTO">
+	SELECT category,title,price,discnt,delpay,stock,img1,content,id from goods0 where id=#{param1}
+</select>
+<delete id="remove">
+	delete from goods0 where id=#{param1}
+</delete>
+<select id="getCart" resultType="com.study.shopping.GoodsDTO">
+	SELECT a.id cart_id, c.id goods_id, cnt, b.name member_name, mobile, mail, adress, title, price, discnt,img1, d.name del_name, pay, cnt * price total FROM cart a Left JOIN member0 b ON a.member_id = b.id join goods0 c on a.goods_id = c.id join delivery d on c.delpay = d.id where b.user_id = #{param1};
+</select>
+<insert id="addCart">
+	INSERT INTO cart SET member_id = #{param1}, goods_id = #{param2}, cnt = #{param3}
+</insert>
+<select id="getIdNum" resultType="_int">
+	SELECT id from member0 where user_id = #{param1}
+</select>
+<select id="checkCart" resultType="_int">
+	SELECT count(*) cnt from cart where member_id = #{param1} and goods_id = #{param2}
+</select>
+<delete id="delCart">
+ 	DELETE FROM cart WHERE id=#{param1}
+</delete>
+<update id="updateCart">
+	UPDATE cart SET cnt = #{param2} where id = #{param1}
+</update>
+<select id="cartOrder" resultType="com.study.shopping.GoodsDTO">
+	SELECT a.id cart_id, c.id goods_id, cnt, title, price, discnt,img1, d.name del_name, d.pay, cnt * price total FROM cart a join goods0 c on a.goods_id = c.id join delivery d on c.delpay = d.id where a.id = #{param1};
+</select>
+<insert id="addOrder">
+	INSERT INTO order0 SET member_id = #{param1}, goods_id = #{param2}, cnt = #{param3}, sales = #{param4}, group_id = #{param5}
+</insert>
+<select id="getOrderList" resultType="com.study.shopping.GoodsDTO">
+	SELECT a.id order_id, d.img1 img1, a.review_id review_id, a.goods_id goods_id, a.group_id group_id, d.title title, a.cnt cnt, a.cnt*a.sales total, b.state state_id, c.name state_name, b.created date
+FROM order0 a
+LEFT JOIN ordergroup b ON a.group_id = b.id
+LEFT JOIN orderstate c ON b.state = c.id
+Join goods0 d On a.goods_id = d.id
+where member_id = #{param1} ORDER BY b.created DESC;;
+</select>
+<update id="updateState">
+	UPDATE ordergroup SET state = '4' where id = #{param1}
+</update>
+<update id="addReviewId">
+	update order0 SET review_id = #{param1} where id = #{param2}
+</update>
+<select id="tkcategory" resultType="com.study.shopping.GoodsDTO">
+	SELECT * FROM goodscategory
+</select>
+</mapper>

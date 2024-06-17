@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.shopping.OrderDAO">
+<select id="list"  resultType="com.study.shopping.OrderDTO">
+SELECT 
+    a.id, 
+    b.user_id, 
+    c.title, 
+    a.cnt, 
+    a.sales, 
+    a.delname, 
+    a.deladress, 
+    a.delmobile, 
+    a.delreq, 
+    a.state,
+    d.name AS delivery_name, 
+    e.name AS payment_name, 
+    f.name AS order_state_name,
+    c.img1 img1,
+    a.created
+FROM 
+    order0 a
+JOIN 
+    member0 b ON a.member_id = b.id
+JOIN 
+    goods0 c ON a.goods_id = c.id
+JOIN 
+    delivery d ON a.delpay = d.id
+JOIN 
+    payment e ON a.payment = e.id
+JOIN 
+    orderstate f ON a.state = f.id
+WHERE
+	a.state = #{param1}
+</select>
+<select id="orderlist" resultType="com.study.shopping.OrderDTO">
+SELECT order0.id as order_id, 
+       member0.user_id as member_id,
+       goods0.title as goods_name,
+       order0.cnt,
+       order0.sales,
+       ordergroup.delname,
+       ordergroup.delzipcode,
+       ordergroup.deladress,
+       ordergroup.deladress2,
+       ordergroup.delmobile,
+       ordergroup.delreq,
+       ordergroup.state,
+       ordergroup.created,
+       ordergroup.id,
+       delivery.name as delivery_name,
+       delivery.pay as delivery_pay,
+       payment.name as payment_name,
+       orderstate.name as orderstate_name
+FROM order0
+JOIN member0 ON order0.member_id = member0.id
+JOIN goods0 ON order0.goods_id = goods0.id
+JOIN ordergroup ON order0.group_id = ordergroup.id
+LEFT JOIN delivery ON ordergroup.delpay = delivery.id
+LEFT JOIN payment ON ordergroup.payment = payment.id
+JOIN orderstate ON ordergroup.state = orderstate.id
+WHERE ordergroup.state = #{param1}
+ORDER BY ordergroup.created DESC;
+</select>
+<update id="updatestate">
+update ordergroup set state=#{param2} where id=#{param1}
+</update>
+</mapper>

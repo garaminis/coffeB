@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.shopping.LoginDAO">
+<!-- <insert id="add">
+	INSERT into member0 set user_id=#{param1} ,name2=#{param2}, password=#{param3}, name=#{param4}, mobile=#{param5} ,mail=#{param6},
+				birth=#{param7}, adress=#{param8}, zipcode=#{param9}, gender=#{param10} ,sAdress=#{param11}, join_day=sysdate() ,
+				member_rank=3, salt=#{param12}
+</insert > -->
+<insert id="add">
+	 INSERT INTO member0 (user_id, nickname, password, name, mobile, mail, birth, gender, zipcode, adress, adress2, salt, member_rank) 
+	 VALUES (#{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}, #{param9}, #{param10}, #{param11}, #{param12}, 3) 
+</insert >
+<insert id="doApiSignup"> 
+	INSERT INTO member0 (user_id, nickname, password, name, mobile, mail, birth, gender, zipcode, adress, adress2, member_rank) 
+	VALUES (#{param1}, #{param2}, #{param3}, #{param4}, #{param5}, #{param6}, #{param7}, #{param8}, #{param9}, #{param10}, #{param11}, 3) 
+</insert>
+
+<select id="getApiName" resultType="string"> 
+	SELECT nickname from member0 where user_id=#{param1} 
+</select>
+<select id="idchk" resultType="int">
+	<![CDATA[ SELECT count(*) FROM member0 WHERE user_id=#{param1} ]]>
+</select>
+<select id="Nicknamechk" resultType="int">
+	<![CDATA[ SELECT count(*) FROM member0 WHERE nickname=#{param1} ]]>
+</select>  
+<select id="getSalt" resultType="com.study.shopping.MemberDTO"> 
+	SELECT password,salt from member0 where user_id=#{param1} 
+</select>
+
+<select id="getNickname" resultType="String"> 
+	SELECT nickname from member0 where user_id=#{param1} and password=#{param2} 
+</select>
+<select id="getEmail" resultType="com.study.shopping.MemberDTO">
+	SELECT user_id,salt from member0 where mail=#{param1}
+</select>
+<select id="dologin" resultType="_int">
+	SELECT count(*) cnt from member0 where user_id=#{param1} and password=#{param2}
+</select>
+<select id="adlogin" resultType="_int">
+	 <!-- SELECT count(*) cnt from member0 where user_id=#{param1} and password=#{param2} and member_rank=1 -->
+	 SELECT count(*) cnt from member0 where user_id=#{param1} and member_rank="1" 
+</select>
+
+<select id="id_mail_chk" resultType="int">
+	SELECT count(*) from member0 where mail=#{param1} and user_id=#{param2}
+</select>
+<update id="updatePass">
+	UPDATE member0 SET password = #{param2}, salt = #{param3} WHERE user_id = #{param1}
+</update>
+</mapper>
